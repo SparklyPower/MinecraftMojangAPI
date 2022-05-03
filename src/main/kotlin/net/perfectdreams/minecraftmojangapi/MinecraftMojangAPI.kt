@@ -43,7 +43,7 @@ class MinecraftMojangAPI(
         if (player.isBlank())
             return null
 
-        val connection = http.get<HttpResponse>("https://api.mojang.com/users/profiles/minecraft/$player")
+        val connection = http.get("https://api.mojang.com/users/profiles/minecraft/$player")
 
         // Mojang uses "204 No Content" if the profile doesn't exist
         if (connection.status == HttpStatusCode.NoContent)
@@ -53,7 +53,7 @@ class MinecraftMojangAPI(
         if (connection.status != HttpStatusCode.OK)
             throw MinecraftMojangAPIException(connection.status)
 
-        val profile = connection.readText()
+        val profile = connection.bodyAsText()
         val obj = json.parseToJsonElement(profile).jsonObject
         username2uuid[obj["name"]!!.jsonPrimitive.content.toLowerCase()] = convertNonDashedToUniqueID(obj["id"]!!.jsonPrimitive.content)
 
@@ -69,7 +69,7 @@ class MinecraftMojangAPI(
         if (uuid2profile.contains(uuid))
             return uuid2profile[uuid]
 
-        val connection = http.get<HttpResponse>("https://sessionserver.mojang.com/session/minecraft/profile/$uuid")
+        val connection = http.get("https://sessionserver.mojang.com/session/minecraft/profile/$uuid")
 
         // Mojang uses "204 No Content" if the profile doesn't exist
         if (connection.status == HttpStatusCode.NoContent)
@@ -79,7 +79,7 @@ class MinecraftMojangAPI(
         if (connection.status != HttpStatusCode.OK)
             throw MinecraftMojangAPIException(connection.status)
 
-        val rawJson = connection.readText()
+        val rawJson = connection.bodyAsText()
         val profile = json.parseToJsonElement(rawJson).jsonObject
 
         val textureValue = profile["properties"]!!

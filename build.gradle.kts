@@ -1,11 +1,11 @@
 plugins {
-    kotlin("jvm") version "1.4.32"
-    kotlin("plugin.serialization") version "1.4.32"
+    kotlin("jvm") version "1.6.21"
+    kotlin("plugin.serialization") version "1.6.21"
     `maven-publish`
 }
 
 group = "net.perfectdreams.minecraftmojangapi"
-version = "0.0.1-SNAPSHOT"
+version = "0.0.2"
 
 repositories {
     mavenCentral()
@@ -13,10 +13,10 @@ repositories {
 
 dependencies {
     implementation(kotlin("stdlib"))
-    api("org.jetbrains.kotlinx:kotlinx-serialization-core:1.1.0")
-    api("org.jetbrains.kotlinx:kotlinx-serialization-json:1.1.0")
-    api("io.ktor:ktor-client-core:1.5.3")
-    implementation("com.github.ben-manes.caffeine:caffeine:3.0.2")
+    api("org.jetbrains.kotlinx:kotlinx-serialization-core:1.3.2")
+    api("org.jetbrains.kotlinx:kotlinx-serialization-json:1.3.2")
+    api("io.ktor:ktor-client-core:2.0.0")
+    implementation("com.github.ben-manes.caffeine:caffeine:3.0.6")
 }
 
 publishing {
