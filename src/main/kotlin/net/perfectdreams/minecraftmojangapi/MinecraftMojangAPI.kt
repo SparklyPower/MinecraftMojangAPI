@@ -45,8 +45,9 @@ class MinecraftMojangAPI(
 
         val connection = http.get("https://api.mojang.com/users/profiles/minecraft/$player")
 
-        // Mojang uses "404 Not Found" if the profile doesn't exist
-        if (connection.status == HttpStatusCode.NotFound)
+        // Mojang uses "404 Not Found" if the profile doesn't exist, or "201 No Content"... yeah, who knows what they actually use
+        // Before it was 201, then it was changed to 404, now it is 201 again, smh
+        if (connection.status == HttpStatusCode.NotFound || connection.status == HttpStatusCode.NoContent)
             return null
 
         // Unexpected response, let's throw a exception!
